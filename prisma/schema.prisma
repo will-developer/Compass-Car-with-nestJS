@@ -6,3 +6,21 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model Car {
+  id         Int        @id @default(autoincrement())
+  brand      String     @db.VarChar(100)
+  model      String     @db.VarChar(100)
+  plate      String     @unique @db.VarChar(10)
+  year       Int
+  created_at DateTime   @default(now())
+  items      CarItems[]
+}
+
+model CarItems {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(100)
+  carId      Int
+  created_at DateTime @default(now())
+  Car        Car?     @relation(fields: [carId], references: [id])
+}
